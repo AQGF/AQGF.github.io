@@ -776,3 +776,74 @@ document.addEventListener('DOMContentLoaded', function () {
   refreshFn()
   unRefreshFn()
 })
+
+let newYearTimer = null;
+var newYear = ()=>{
+  clearTimeout(newYearTimer);
+  if (!document.querySelector('#newYear')) return;
+  // 新年时间戳 and 星期对象
+  let newYear = new Date('2022-11-22 00:00:00').getTime() / 1000,
+      week = { 0: '周日', 1: '周一', 2: '周二', 3: '周三', 4: '周四', 5: '周五', 6: '周六' }
+  let newYearDate = new Date('2022-11-22 00:00:00');
+  let anniversaryDate = new Date(newYearDate.getFullYear(), 10, 22, 0, 0, 0); // 每年的11-22
+
+  time();
+
+  // 补零函数
+  function nol(h) { return h > 9 ? h : '0' + h; };
+
+  function time() {
+    // 现在 时间对象
+    let now = new Date();
+
+    // 右下角 今天
+    document.querySelector('#newYear .today').innerHTML = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + ' ' + week[now.getDay()]
+
+    // 现在与新年相差秒数
+    let second = Math.round(now.getTime() / 1000) - newYear;
+    // 现在与周年纪念日相差秒数
+    let anniversarySeconds = Math.round(now.getTime() / 1000) - anniversaryDate.getTime() / 1000;
+    
+    console.log(anniversarySeconds)
+    console.log(now.getDate())
+    console.log((now.getMonth() + 1))
+    // 如果是周年纪念日，触发元宝飘落
+    if (anniversarySeconds >= 0 && now.getDate() === 22 && (now.getMonth() + 1)=== 11) {
+      document.querySelector('#newYear .newYear-time').innerHTML = '<span class="happyNewYear">❤纪念日快乐！</span>';
+    }
+    else{
+      // 大于0则表示已经过了
+      document.querySelector('#newYear .title').innerHTML = '距离❤我们❤在一起已过去：';
+
+      // 计算天数、小时、分钟、秒数
+      let days = Math.floor(second / (24 * 60 * 60));
+      second %= (24 * 60 * 60);
+      let hours = Math.floor(second / (60 * 60));
+      second %= (60 * 60);
+      let minutes = Math.floor(second / 60);
+      second %= 60;
+
+      document.querySelector('#newYear .newYear-time').innerHTML = `<span class="time">${days}天 ${nol(hours)}:${nol(minutes)}:${nol(second)}</span>`;
+    } 
+
+    // 计时
+    newYearTimer = setTimeout(time, 1000);
+  }
+
+  // // 元宝飘落
+  // jQuery(document).ready(function($) {
+  //   $('#newYear').wpSuperSnow({
+  //     flakes: ['https://s11.ax1x.com/2024/02/15/pFGKGSs.jpg', 'https://s11.ax1x.com/2024/02/15/pFGKlFg.jpg', 'https://s11.ax1x.com/2024/02/15/pFGKmOP.jpg'],
+  //     totalFlakes: '100',
+  //     zIndex: '1',
+  //     maxSize: '30',
+  //     maxDuration: '20',
+  //     useFlakeTrans: false
+  //   });
+  // });
+}
+newYear();
+
+
+
+
