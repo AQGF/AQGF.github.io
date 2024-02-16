@@ -804,9 +804,9 @@ var newYear = ()=>{
     // 现在与周年纪念日相差秒数
     let anniversarySeconds = Math.round(now.getTime() / 1000) - anniversaryDate.getTime() / 1000;
     
-    console.log(anniversarySeconds)
-    console.log(now.getDate())
-    console.log((now.getMonth() + 1))
+    // console.log(anniversarySeconds)
+    // console.log(now.getDate())
+    // console.log((now.getMonth() + 1))
     // 如果是周年纪念日，触发元宝飘落
     if (anniversarySeconds >= 0 && now.getDate() === 22 && (now.getMonth() + 1)=== 11) {
       document.querySelector('#newYear .newYear-time').innerHTML = '<span class="happyNewYear">❤纪念日快乐！</span>';
